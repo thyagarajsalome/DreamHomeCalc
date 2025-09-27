@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dream Home Cost Calculator | India</title>
+    <link rel="canonical" href="https://toolwebsite.in/construction.html" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+      /* --- THEME & GLOBAL STYLES --- */
+      :root {
+        --primary-color: #ff6f00; /* Vibrant Orange */
+        --secondary-color: #2c3e50; /* Dark Slate Blue */
+        --accent-color: #fbc02d; /* Golden Yellow */
+        --background-color: #f8f9fa; /* Light Gray */
+        --card-background: #ffffff;
+        --text-color: #333;
+        --light-text-color: #555;
+        --border-color: #e0e0e0;
+        --border-radius: 16px;
+        --box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        --font-body: "Poppins", sans-serif;
+        --font-heading: "Montserrat", sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 80px; /* Offset for sticky header */
+      }
+      body {
+        font-family: var(--font-body);
+        background-color: var(--background-color);
+        color: var(--text-color);
+      }
+      .container {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 0 1rem;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: var(--font-heading);
+        font-weight: 700;
+        color: var(--secondary-color);
+      }
+      section {
+        padding: 4rem 0;
+      }
+      .section-title {
+        text-align: center;
+        margin-bottom: 3rem;
+        font-size: 2.2rem;
+      }
+
+      /* --- HEADER & NAVIGATION --- */
+      .header {
+        position: sticky;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        z-index: 1000;
+        transition: background-color 0.3s ease;
+      }
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 80px;
+      }
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: var(--secondary-color);
+        text-decoration: none;
+      }
+      .logo i {
+        color: var(--primary-color);
+      }
+      .nav-menu {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+      }
+      .nav-link {
+        text-decoration: none;
+        color: var(--secondary-color);
+        font-weight: 600;
+        transition: color 0.3s ease;
+        position: relative;
+        padding-bottom: 5px;
+      }
+      .nav-link:hover,
+      .nav-link.active {
+        color: var(--primary-color);
+      }
+      .nav-link::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: var(--primary-color);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s ease-out;
+      }
+      .nav-link:hover::after,
+      .nav-link.active::after {
+        transform: scaleX(1);
+      }
+      .hamburger {
+        display: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+      /* --- HERO SECTION --- */
+      #home {
+        margin-bottom: 20px;
+        text-align: center;
+        padding: 5rem 1rem;
+        background-image: linear-gradient(
+            rgba(44, 62, 80, 0.7),
+            rgba(44, 62, 80, 0.7)
+          ),
+          url("https://images.unsplash.com/photo-1572120360610-d971b9d7767c?q=80&w=2070&auto=format&fit=crop");
+        background-size: cover;
+        background-position: center;
+        color: #fff;
+      }
+      #home h1 {
+        font-size: 3rem;
+        color: #fff;
+        margin-bottom: 1rem;
+      }
+      #home p {
+        font-size: 1.1rem;
+        max-width: 600px;
+        margin: 0 auto 2rem;
+        line-height: 1.7;
+      }
+      .cta-button {
+        background: var(--primary-color);
+        color: #fff;
+        padding: 1rem 2.5rem;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        display: inline-block;
+      }
+      .cta-button:hover {
+        background-color: #e66000;
+        transform: translateY(-3px);
+      }
+      /* --- ABOUT & FAQ SECTIONS --- */
+      #about p {
+        max-width: 700px;
+        margin: 0 auto;
+        text-align: center;
+        line-height: 1.8;
+      }
+      .faq-container {
+        max-width: 700px;
+        margin: 0 auto;
+        display: grid;
+        gap: 1rem;
+      }
+      .faq-item {
+        background: #fff;
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+      }
+      .faq-item summary {
+        padding: 1.25rem;
+        font-weight: 600;
+        cursor: pointer;
+        list-style: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .faq-item summary::-webkit-details-marker {
+        display: none;
+      }
+      .faq-item p {
+        padding: 0 1.25rem 1.25rem;
+        line-height: 1.7;
+      }
+      .faq-item[open] summary {
+        color: var(--primary-color);
+      }
+
+      /* --- CALCULATOR (TOOLS) SECTION --- */
+      .card {
+        background: var(--card-background);
+        padding: 2.5rem;
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+      }
+      /* (All other calculator styles are the same, just copied below for completeness) */
+      form {
+        display: grid;
+        gap: 1.5rem;
+      }
+      .full-width {
+        grid-column: 1 / -1;
+      }
+      .form-group {
+        display: flex;
+        flex-direction: column;
+      }
+      label {
+        margin-bottom: 0.75rem;
+        font-weight: 600;
+        color: var(--secondary-color);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      label i {
+        color: var(--primary-color);
+      }
+      input[type="number"] {
+        width: 100%;
+        padding: 0.8rem 1rem;
+        border: 2px solid var(--border-color);
+        border-radius: 8px;
+        font-family: var(--font-body);
+        font-size: 1rem;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      }
+      input[type="number"]:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 4px rgba(255, 111, 0, 0.2);
+      }
+      .quality-selector {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+        border: 2px solid var(--border-color);
+        border-radius: 8px;
+        padding: 0.5rem;
+        margin-top: 0.5rem;
+      }
+      .quality-selector label {
+        display: block;
+        padding: 0.75rem;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 6px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        font-weight: 500;
+        color: var(--light-text-color);
+      }
+      .quality-selector input[type="radio"] {
+        display: none;
+      }
+      .quality-selector input[type="radio"]:checked + label {
+        background-color: var(--primary-color);
+        color: white;
+        font-weight: 600;
+      }
+      .btn {
+        background: var(--primary-color);
+        color: #fff;
+        border: none;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1.1rem;
+        font-weight: 600;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        width: 100%;
+      }
+      .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(255, 111, 0, 0.4);
+      }
+      .action-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+        margin-top: 2rem;
+      }
+      .btn-secondary {
+        background: #ecf0f1;
+        color: var(--secondary-color);
+        border: 2px solid var(--border-color);
+      }
+      .btn-secondary:hover {
+        background: #e0e6e8;
+        box-shadow: none;
+        transform: none;
+      }
+      /* --- RESULTS SECTION --- */
+      #resultsSection {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+        display: none;
+        margin-top: 3rem;
+      }
+      #resultsSection.visible {
+        opacity: 1;
+        transform: translateY(0);
+        display: block;
+      }
+      .results-grid {
+        display: grid;
+        gap: 2rem;
+        margin-top: 2rem;
+      }
+      .total-summary {
+        text-align: center;
+        padding: 2rem;
+        background: linear-gradient(135deg, var(--secondary-color), #34495e);
+        color: #fff;
+        border-radius: var(--border-radius);
+        margin-bottom: 2rem;
+      }
+      .total-summary p {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+      }
+      #finalTotalCost {
+        display: block;
+        font-size: 3rem;
+        font-family: var(--font-heading);
+        font-weight: 800;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid var(--border-color);
+      }
+      th {
+        font-weight: 600;
+        color: var(--secondary-color);
+      }
+      tbody tr:last-child td {
+        border-bottom: none;
+      }
+      .text-right {
+        text-align: right;
+        font-weight: 600;
+      }
+      .chart-container {
+        min-height: 250px;
+      }
+      .detailed-breakdown-grid {
+        display: grid;
+        gap: 1.5rem;
+        margin-top: 2rem;
+      }
+      .component-card {
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius);
+        padding: 1.5rem;
+      }
+      .component-card h3 {
+        margin-bottom: 1rem;
+        color: var(--primary-color);
+      }
+      /* --- FOOTER --- */
+      .footer {
+        text-align: center;
+        padding: 3rem 1rem;
+        background-color: var(--secondary-color);
+        color: #bdc3c7;
+      }
+      .social-links {
+        margin-top: 1rem;
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        list-style: none;
+      }
+      .social-links a {
+        color: #bdc3c7;
+        font-size: 1.5rem;
+        transition: color 0.3s ease, transform 0.3s ease;
+      }
+      .social-links a:hover {
+        color: #fff;
+        transform: translateY(-3px);
+      }
+
+      /* --- MEDIA QUERIES for RESPONSIVENESS --- */
+      @media (min-width: 768px) {
+        form {
+          grid-template-columns: 1fr 1fr;
+          align-items: end;
+        }
+        .results-grid {
+          grid-template-columns: 1.2fr 0.8fr;
+          align-items: center;
+        }
+        .detailed-breakdown-grid {
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+      }
+      @media (max-width: 767px) {
+        .nav-menu {
+          position: absolute;
+          top: 80px;
+          left: -100%;
+          width: 100%;
+          flex-direction: column;
+          align-items: center;
+          background: #fff;
+          padding: 2rem 0;
+          box-shadow: 0 10px 10px rgba(0, 0, 0, 0.05);
+          transition: left 0.4s ease-out;
+        }
+        .nav-menu.active {
+          left: 0;
+        }
+        .hamburger {
+          display: block;
+        }
+        #home h1 {
+          font-size: 2.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <nav class="navbar container">
+        <a href="#home" class="logo"
+          ><i class="fas fa-home"></i> DreamHomeCalc</a
+        >
+        <ul class="nav-menu">
+          <li><a href="#home" class="nav-link">Home</a></li>
+          <li><a href="#about" class="nav-link">About</a></li>
+          <li><a href="#tools" class="nav-link">Calculator</a></li>
+          <li><a href="#faq" class="nav-link">FAQ</a></li>
+        </ul>
+        <div class="hamburger">
+          <i class="fas fa-bars"></i>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section id="home">
+        <div class="container">
+          <h1>Build Your Dream, Know Your Budget</h1>
+          <p>
+            Our free calculator gives you an instant, detailed cost estimate for
+            building your home in India. Plan smarter, avoid surprises, and
+            bring your vision to life.
+          </p>
+          <a href="#tools" class="cta-button"
+            >Start Calculating <i class="fas fa-arrow-down"></i
+          ></a>
+        </div>
+      </section>
+
+      <section id="about" class="container">
+        <h2 class="section-title">Why Use Our Calculator?</h2>
+        <p>
+          DreamHomeCalc was created to demystify the construction budgeting
+          process. We provide a transparent, easy-to-use tool for homeowners,
+          builders, and designers in India. Our estimates are based on current
+          market standards, giving you a realistic financial picture to help you
+          make informed decisions for your project.
+        </p>
+      </section>
+
+      <section id="tools">
+        <div class="container">
+          <h2 class="section-title">Construction Cost Calculator</h2>
+          <div class="card">
+            <form id="budgetForm">
+              <div class="form-group full-width">
+                <label for="quality"
+                  ><i class="fas fa-star"></i> Select Finish Quality</label
+                >
+                <div class="quality-selector">
+                  <input
+                    type="radio"
+                    id="quality-basic"
+                    name="quality"
+                    value="1800"
+                  />
+                  <label for="quality-basic">Basic</label>
+                  <input
+                    type="radio"
+                    id="quality-standard"
+                    name="quality"
+                    value="2000"
+                    checked
+                  />
+                  <label for="quality-standard">Standard</label>
+                  <input
+                    type="radio"
+                    id="quality-premium"
+                    name="quality"
+                    value="2200"
+                  />
+                  <label for="quality-premium">Premium</label>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="area"
+                  ><i class="fas fa-ruler-combined"></i> Total Area
+                  (sq.ft)</label
+                >
+                <input
+                  type="number"
+                  id="area"
+                  placeholder="e.g., 1200"
+                  required
+                  min="1"
+                />
+              </div>
+              <div class="form-group">
+                <label for="costPerSqft"
+                  ><i class="fas fa-rupee-sign"></i> Cost per sq.ft (INR)</label
+                >
+                <input
+                  type="number"
+                  id="costPerSqft"
+                  placeholder="e.g., 1600"
+                  required
+                  min="1"
+                />
+              </div>
+              <div class="form-group full-width">
+                <button type="submit" class="btn">
+                  <i class="fas fa-cogs"></i> Calculate Budget
+                </button>
+              </div>
+            </form>
+          </div>
+          <div id="resultsSection">
+            <div class="card">
+              <div id="totalSummary" class="total-summary">
+                <p>Total Estimated Cost</p>
+                <span id="finalTotalCost">₹0</span>
+              </div>
+              <div class="results-grid">
+                <div class="result-details">
+                  <h3>Cost Breakdown</h3>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Component</th>
+                        <th>Allocation</th>
+                        <th class="text-right">Cost (INR)</th>
+                      </tr>
+                    </thead>
+                    <tbody id="breakdownTable"></tbody>
+                  </table>
+                </div>
+                <div class="chart-container">
+                  <canvas id="budgetChart"></canvas>
+                </div>
+              </div>
+              <div id="detailedBreakdownSection">
+                <h3 style="margin: 3rem 0 1rem; text-align: center">
+                  Detailed Component Breakdown
+                </h3>
+                <div
+                  id="detailedComponents"
+                  class="detailed-breakdown-grid"
+                ></div>
+              </div>
+              <div class="action-buttons" id="actionButtons">
+                <button id="downloadPdfBtn" class="btn">
+                  <i class="fas fa-file-pdf"></i> Download PDF
+                </button>
+                <button id="shareBudget" class="btn btn-secondary">
+                  <i class="fas fa-share-alt"></i> Share Budget
+                </button>
+                <button id="resetBudget" class="btn btn-secondary">
+                  <i class="fas fa-sync-alt"></i> Reset
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq" class="container">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <div class="faq-container">
+          <details class="faq-item">
+            <summary>Is this calculator accurate?</summary>
+            <p>
+              This tool provides a preliminary estimate based on standard
+              industry percentages in India. Actual costs can vary based on your
+              specific location, material choices, labor rates, and
+              architectural design. Always consult with a professional
+              contractor for a detailed quote.
+            </p>
+          </details>
+          <details class="faq-item">
+            <summary>What does "Finish Quality" mean?</summary>
+            <p>
+              <b>Basic:</b> Uses standard, budget-friendly materials for
+              flooring, paint, and fittings. <br /><b>Standard:</b> A mix of
+              quality and value, with better-grade materials and finishes.
+              <br /><b>Premium:</b> Involves high-end, luxury materials, branded
+              fittings, and specialized finishes.
+            </p>
+          </details>
+          <details class="faq-item">
+            <summary>What is included in the estimate?</summary>
+            <p>
+              The estimate covers the core civil, finishing, and basic
+              electrical/plumbing work. It does not typically include the cost
+              of land, architectural fees, government permits, interior
+              furnishing, or landscaping.
+            </p>
+          </details>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <a href="#home" class="logo" style="color: #fff"
+          ><i class="fas fa-home"></i> DreamHomeCalc</a
+        >
+        <ul class="social-links">
+          <li>
+            <a href="#" aria-label="Facebook"
+              ><i class="fab fa-facebook-f"></i
+            ></a>
+          </li>
+          <li>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          </li>
+          <li>
+            <a href="#" aria-label="Instagram"
+              ><i class="fab fa-instagram"></i
+            ></a>
+          </li>
+        </ul>
+        <p style="margin-top: 1rem">
+          &copy; 2025 DreamHomeCalc. All rights reserved.
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      // --- WEBSITE INTERACTIVITY (NAVBAR, SCROLL) ---
+      const hamburger = document.querySelector(".hamburger");
+      const navMenu = document.querySelector(".nav-menu");
+      const navLinks = document.querySelectorAll(".nav-link");
+      const sections = document.querySelectorAll("main section");
+
+      hamburger.addEventListener("click", () => {
+        hamburger.classList.toggle("active");
+        navMenu.classList.toggle("active");
+      });
+
+      navLinks.forEach((link) =>
+        link.addEventListener("click", () => {
+          hamburger.classList.remove("active");
+          navMenu.classList.remove("active");
+        })
+      );
+
+      // Active link on scroll
+      window.addEventListener("scroll", () => {
+        let current = "";
+        sections.forEach((section) => {
+          const sectionTop = section.offsetTop;
+          if (pageYOffset >= sectionTop - 100) {
+            current = section.getAttribute("id");
+          }
+        });
+
+        navLinks.forEach((link) => {
+          link.classList.remove("active");
+          if (link.getAttribute("href").includes(current)) {
+            link.classList.add("active");
+          }
+        });
+      });
+
+      // --- CALCULATOR LOGIC (UNMODIFIED CORE) ---
+      // (All your original, excellent calculator JS is here)
+      const mainBreakdown = {
+        Foundation: 15,
+        Structure: 35,
+        Roofing: 10,
+        Finishing: 25,
+        "Services (Elec/Plumb)": 15,
+      };
+      const detailedBreakdown = {
+        Foundation: { Excavation: 40, Concrete: 40, Reinforcement: 20 },
+        Structure: { Brickwork: 50, Cement: 30, "Labor & Scaffolding": 20 },
+        Roofing: { "Roofing Material": 70, "Waterproofing & Labor": 30 },
+        Finishing: { Flooring: 40, Painting: 30, "Doors & Windows": 30 },
+        "Services (Elec/Plumb)": {
+          "Electrical & Lighting": 50,
+          Plumbing: 30,
+          Fixtures: 20,
+        },
+      };
+      const chartColors = [
+        "#ff6f00",
+        "#2c3e50",
+        "#fbc02d",
+        "#3498db",
+        "#95a5a6",
+      ];
+      const form = document.getElementById("budgetForm");
+      const qualityRadios = document.querySelectorAll('input[name="quality"]');
+      const costPerSqftInput = document.getElementById("costPerSqft");
+      const resultsSection = document.getElementById("resultsSection");
+      const finalTotalCostSpan = document.getElementById("finalTotalCost");
+      const breakdownTable = document.getElementById("breakdownTable");
+      const detailedComponentsDiv =
+        document.getElementById("detailedComponents");
+      const resetBudgetBtn = document.getElementById("resetBudget");
+      const shareBudgetBtn = document.getElementById("shareBudget");
+      const downloadPdfBtn = document.getElementById("downloadPdfBtn");
+      const canvas = document.getElementById("budgetChart");
+      let myChart = null;
+      const formatCurrency = (value) =>
+        value.toLocaleString("en-IN", {
+          style: "currency",
+          currency: "INR",
+          maximumFractionDigits: 0,
+        });
+      function animateValue(element, start, end, duration) {
+        let startTimestamp = null;
+        const step = (timestamp) => {
+          if (!startTimestamp) startTimestamp = timestamp;
+          const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+          const currentVal = Math.floor(progress * (end - start) + start);
+          element.textContent = formatCurrency(currentVal);
+          if (progress < 1) window.requestAnimationFrame(step);
+        };
+        window.requestAnimationFrame(step);
+      }
+      qualityRadios.forEach((radio) => {
+        radio.addEventListener("change", function () {
+          costPerSqftInput.value = this.value;
+        });
+      });
+      document.addEventListener("DOMContentLoaded", () => {
+        costPerSqftInput.value = document.querySelector(
+          'input[name="quality"]:checked'
+        ).value;
+      });
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const area = parseFloat(document.getElementById("area").value);
+        const costPerSqft = parseFloat(costPerSqftInput.value);
+        if (
+          isNaN(area) ||
+          isNaN(costPerSqft) ||
+          area <= 0 ||
+          costPerSqft <= 0
+        ) {
+          alert("Please enter valid numbers greater than zero.");
+          return;
+        }
+        const totalCost = area * costPerSqft;
+        updateUI(totalCost);
+      });
+      resetBudgetBtn.addEventListener("click", function () {
+        form.reset();
+        costPerSqftInput.value = document.querySelector(
+          'input[name="quality"]:checked'
+        ).value;
+        resultsSection.classList.remove("visible");
+        if (myChart) myChart.destroy();
+      });
+      shareBudgetBtn.addEventListener("click", function () {
+        const shareData = {
+          title: "My House Construction Budget",
+          text: `I just calculated my house construction budget! Total Cost: ${finalTotalCostSpan.textContent}`,
+          url: window.location.href,
+        };
+        if (navigator.share) {
+          navigator
+            .share(shareData)
+            .catch((err) => console.error("Share failed:", err));
+        } else {
+          alert("Sharing is not supported on your browser.");
+        }
+      });
+      downloadPdfBtn.addEventListener("click", function () {
+        const { jsPDF } = window.jspdf;
+        const originalButtonText = this.innerHTML;
+        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+        this.disabled = true;
+        const content = document.querySelector("#resultsSection .card");
+        html2canvas(content, { scale: 2, useCORS: true })
+          .then((canvas) => {
+            const imgData = canvas.toDataURL("image/png");
+            const pdf = new jsPDF({
+              orientation: "portrait",
+              unit: "px",
+              format: "a4",
+            });
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const imgHeight = (canvas.height * pdfWidth) / canvas.width;
+            pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, imgHeight);
+            pdf.save("House-Construction-Budget.pdf");
+            this.innerHTML = originalButtonText;
+            this.disabled = false;
+          })
+          .catch((err) => {
+            console.error("PDF generation failed:", err);
+            this.innerHTML = originalButtonText;
+            this.disabled = false;
+          });
+      });
+      function updateUI(totalCost) {
+        animateValue(finalTotalCostSpan, 0, totalCost, 1500);
+        breakdownTable.innerHTML = "";
+        detailedComponentsDiv.innerHTML = "";
+        const chartLabels = [];
+        const chartData = [];
+        Object.entries(mainBreakdown).forEach(([component, percentage]) => {
+          const cost = (totalCost * percentage) / 100;
+          breakdownTable.innerHTML += `
+            <tr>
+              <td>${component}</td>
+              <td>${percentage}%</td>
+              <td class="text-right">${formatCurrency(cost)}</td>
+            </tr>`;
+          chartLabels.push(component);
+          chartData.push(cost);
+          const details = detailedBreakdown[component];
+          if (details) {
+            let detailsHTML = `<div class="component-card"><h3>${component} Details</h3><table><tbody>`;
+            Object.entries(details).forEach(([subComp, subPercent]) => {
+              const subCost = (cost * subPercent) / 100;
+              detailsHTML += `<tr><td>${subComp}</td><td class="text-right">${formatCurrency(
+                subCost
+              )}</td></tr>`;
+            });
+            detailsHTML += `</tbody></table></div>`;
+            detailedComponentsDiv.innerHTML += detailsHTML;
+          }
+        });
+        createOrUpdateChart(chartLabels, chartData);
+        resultsSection.style.display = "block";
+        setTimeout(() => {
+          resultsSection.classList.add("visible");
+          resultsSection.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 100);
+      }
+      function createOrUpdateChart(labels, data) {
+        if (myChart) myChart.destroy();
+        myChart = new Chart(canvas.getContext("2d"), {
+          type: "doughnut",
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                data: data,
+                backgroundColor: chartColors,
+                borderColor: "#ffffff",
+                borderWidth: 4,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: "bottom",
+                labels: {
+                  font: { family: "'Poppins', sans-serif" },
+                  padding: 20,
+                },
+              },
+              tooltip: {
+                callbacks: {
+                  label: (context) =>
+                    `${context.label}: ${formatCurrency(context.parsed)}`,
+                },
+              },
+            },
+          },
+        });
+      }
+    </script>
+  </body>
+</html>
